@@ -38,5 +38,5 @@ jobs:
     # 5. Déployer sur Elastic Beanstalk
     - name: Deploy to Elastic Beanstalk
       run: |
-        eb init -p python-3.8 app_rjo --region eu-west-1
+        eb init -p python-3.8 app_rjo2 --region eu-west-1
         eb deploy
