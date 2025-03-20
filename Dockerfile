@@ -16,8 +16,8 @@ COPY . /
 # Exécuter les tests avant de démarrer l'application
 RUN pytest test_app.py
 
-# Exposer le port sur lequel l'app sera disponible
-EXPOSE 5000
+# Exposer le port sur lequel l'app sera disponible + le port des métriques
+EXPOSE 5000 8000
 
 # Définir la commande pour lancer l'application Flask
 CMD ["python", "app.py"]

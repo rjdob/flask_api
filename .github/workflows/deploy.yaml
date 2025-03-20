@@ -37,7 +37,7 @@ jobs:
     - name: Deploy Docker image to Elastic Beanstalk
       run: |
         # Initialiser Elastic Beanstalk pour utiliser Docker
-        eb init -p docker app_rjo_dock --region eu-west-1  # Remplacez "my-app" par le nom de votre application Elastic Beanstalk
+        eb init -p docker app_rjo_dock --region eu-west-1
         
         # Déployer avec Elastic Beanstalk
         eb deploy --region eu-west-1
