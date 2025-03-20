@@ -22,21 +22,16 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1
 
-    # 3. Installer EB CLI via pip
-    - name: Install EB CLI
+    # 3. Construire l'image Docker
+    - name: Build Docker image
       run: |
-        python -m pip install --upgrade pip
-        pip install awsebcli
+        docker build -t app_rjo .
 
-    # 4. Installer les dépendances Python
-    - name: Install dependencies
+    # 4. Déployer l'image Docker sur Elastic Beanstalk
+    - name: Deploy Docker image to Elastic Beanstalk
       run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install -r requirements.txt
-
-    # 5. Déployer sur Elastic Beanstalk
-    - name: Deploy to Elastic Beanstalk
-      run: |
-        eb init -p python-3.8 app_rjo2 --region eu-west-1
-        eb deploy
+        # Initialiser Elastic Beanstalk pour utiliser Docker
+        eb init -p docker app_rjo_dock --region eu-west-1  # Remplacez "my-app" par le nom de votre application Elastic Beanstalk
+        
+        # Déployer avec Elastic Beanstalk
+        eb deploy --region eu-west-1
