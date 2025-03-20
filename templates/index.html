@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prédiction</title>
+    <script>
+        function callAPI() {
+            // Récupérer les valeurs des champs du formulaire
+            const age = document.getElementById('Age').value;
+            const accountManager = document.getElementById('Account_Manager').value;
+            const years = document.getElementById('Years').value;
+            const numSites = document.getElementById('Num_Sites').value;
+
+            // Créer un objet FormData pour envoyer les données
+            const formData = new FormData();
+            formData.append('Age', age);
+            formData.append('Account_Manager', accountManager);
+            formData.append('Years', years);
+            formData.append('Num_Sites', numSites);
+
+            // Envoyer une requête POST à l'API Flask
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Afficher la prédiction ou l'erreur
+                document.getElementById('response').innerText = data.message + ": " + data.prediction || data.error;
+            })
+            .catch(error => {
+                document.getElementById('response').innerText = 'Erreur: ' + error;
+            });
+        }
+        // Fonction pour appeler l'API de test
+        function testAPI() {
+            fetch('/test')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('testResponse').innerText = 'Réponse de l\'API /test: ' + data;
+                })
+                .catch(error => {
+                    document.getElementById('testResponse').innerText = 'Erreur: ' + error;
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>Prédiction</h1>
+    <form onsubmit="event.preventDefault(); callAPI();">
+        <label for="Age">Age:</label>
+        <input type="float" id="Age" required><br><br>
+
+        <label for="Account_Manager">Account Manager:</label>
+        <input type="float" id="Account_Manager" required><br><br>
+
+        <label for="Years">Years:</label>
+        <input type="float" id="Years" required><br><br>
+
+        <label for="Num_Sites">Number of Sites:</label>
+        <input type="float" id="Num_Sites" required><br><br>
+
+        <button type="submit">Soumettre</button>
+    </form>
+
+    <h2>Résultat de la Prédiction:</h2>
+    <p id="response"></p>
+
+    <h2>Tester l'API</h2>
+    <button onclick="testAPI()">Tester l'API</button>
+    <p id="testResponse"></p>
+</body>
+</html>
